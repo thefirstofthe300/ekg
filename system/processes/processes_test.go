@@ -1,14 +1,15 @@
 package processes
 
 import (
-	"github.com/shirou/gopsutil/process"
 	"os"
 	"reflect"
 	"testing"
+
+	"github.com/shirou/gopsutil/process"
 )
 
 func SliceContains(slice []*process.Process, p *process.Process) bool {
-	for i, _ := range slice {
+	for i := range slice {
 		if reflect.DeepEqual(slice[i], p) {
 			return true
 		}
@@ -19,8 +20,8 @@ func SliceContains(slice []*process.Process, p *process.Process) bool {
 func TestProcess_Add(t *testing.T) {
 	// gopsutil's NewProcess function will look use the HOST_PROC environmental
 	// variable as its proc directory. Here we utilize to make testing easier
-	host_proc := "testdata"
-	os.Setenv("HOST_PROC", host_proc)
+	hostProc := "testdata"
+	os.Setenv("HOST_PROC", hostProc)
 	defer os.Setenv("HOST_PROC", "")
 
 	var testProcesses Processes
@@ -45,8 +46,8 @@ func TestProcess_Add(t *testing.T) {
 }
 
 func TestNew(t *testing.T) {
-	host_proc := "testdata"
-	os.Setenv("HOST_PROC", host_proc)
+	hostProc := "testdata"
+	os.Setenv("HOST_PROC", hostProc)
 	defer os.Setenv("HOST_PROC", "")
 
 	var expectedProcesses = &Processes{
@@ -77,7 +78,7 @@ func TestNew(t *testing.T) {
 		t.Fatal("The test processes", testProcesses, "did not meet the expected processes", expectedProcesses)
 	}
 
-	for i, _ := range expectedProcesses.ProcessList {
+	for i := range expectedProcesses.ProcessList {
 		if SliceContains(testProcesses.ProcessList, expectedProcesses.ProcessList[i]) == false {
 			t.Fatal("The test processes", testProcesses, "did not meet the expected processes", expectedProcesses)
 		}

@@ -2,13 +2,17 @@ package processes
 
 import (
 	"fmt"
+
 	"github.com/shirou/gopsutil/process"
 )
 
+// Processes is a struct that wraps around the go gopsutil process library and
+// provides a number of helper functions to make life easier
 type Processes struct {
 	ProcessList []*process.Process
 }
 
+// Add takes a pid number, creates a new process and adds it to the currently known processes
 func (p *Processes) Add(pid int32) error {
 	process, err := process.NewProcess(pid)
 
@@ -20,7 +24,7 @@ func (p *Processes) Add(pid int32) error {
 	return nil
 }
 
-// Returns a list of currently running processes
+// New returns a pointer to a new Processes struct
 func New() (*Processes, error) {
 	var processes Processes
 
