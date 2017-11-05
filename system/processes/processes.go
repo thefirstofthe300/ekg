@@ -2,6 +2,9 @@ package processes
 
 import (
 	"fmt"
+	"io"
+	"path"
+	"text/template"
 
 	"github.com/shirou/gopsutil/process"
 )
@@ -43,4 +46,16 @@ func New() (*Processes, error) {
 	}
 
 	return &processes, nil
+}
+
+// Write takes a Writer interface and pretty prints the process list to it
+func (p *Processes) Write(w io.Writer) error {
+	t := template.Must(template.New("").ParseFiles(path.Join("system", "processes", "templates", "processes.tmpl")))
+
+	err := t.ExecuteTemplate(w, "processes.tmpl", p.ProcessList)
+	if err != nil {
+		return fmt.Errorf("unable to print process list: %s", err)
+	}
+
+	return nil
 }
