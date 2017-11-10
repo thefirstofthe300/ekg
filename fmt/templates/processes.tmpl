@@ -1,4 +1,6 @@
+{{ if .Processes}}
 Pid Ppid Command
-{{ range . -}}
+{{ range .Processes.ProcessList -}}
 {{ .Pid }} {{ .Ppid }} {{ .Cmdline }}
+{{ end }}
 {{ end }}
