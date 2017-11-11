@@ -2,5 +2,16 @@
 Pid Ppid Command
 {{ range .Processes.ProcessList -}}
 {{ .Pid }} {{ .Ppid }} {{ .Cmdline }}
-{{ end }}
-{{ end }}
+{{ end -}}
+{{ end -}}
+{{ if .DNS -}}
+Metadata Servers IPs
+{{ range .DNS.MetadataServerIPs -}}
+{{ . }}
+{{ end -}}
+=== Can the machine resolve the rest of the world
+IPs for en.wikipedia.org
+{{ range .DNS.RemoteServerIPs -}}
+{{ . }}
+{{ end -}}
+{{ end -}}

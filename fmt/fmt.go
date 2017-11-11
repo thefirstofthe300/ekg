@@ -5,12 +5,14 @@ import (
 	"io"
 	"text/template"
 
+	"github.com/thefirstofthe300/ekg/dns"
 	"github.com/thefirstofthe300/ekg/processes"
 )
 
 // FmtConfig is the data struct to be used when passing data to the output template
 type FmtConfig struct {
 	Processes *processes.Processes
+	DNS       *dns.DNSConfig
 }
 
 // Printf prints the data to the whatever writer it is passed
