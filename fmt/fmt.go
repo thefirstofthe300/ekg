@@ -9,21 +9,31 @@ import (
 	"github.com/thefirstofthe300/ekg/processes"
 )
 
-// FmtConfig is the data struct to be used when passing data to the output template
-type FmtConfig struct {
+// Config is the data struct to be used when passing data to the output template
+type Config struct {
 	Processes *processes.Processes
-	DNS       *dns.DNSConfig
+	DNS       *dns.Config
 }
 
 // Printf prints the data to the whatever writer it is passed
-func Printf(w io.Writer, fc *FmtConfig) error {
-	tmpl := template.Must(template.ParseGlob("fmt/templates/*"))
+func Printf(w io.Writer, fc *Config) error {
+	funcs := template.FuncMap{
+		"trunc": trunc,
+	}
+	tmpl := template.Must(template.New("").Funcs(funcs).ParseFiles("fmt/templates/processes.tmpl"))
 
-	err := tmpl.Execute(w, fc)
+	err := tmpl.ExecuteTemplate(w, "processes.tmpl", fc)
 
 	if err != nil {
 		return fmt.Errorf("unable to execute templates: %s", err)
 	}
 
 	return nil
+}
+
+func trunc(text string) string {
+	if len(text) > 50 {
+		text = text[:50]
+	}
+	return text
 }

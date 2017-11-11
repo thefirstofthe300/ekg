@@ -8,7 +8,7 @@ import (
 // DnsConfig is a struct that describes the current DNS configuration for the
 // machine. It contains the current configuration of /etc/resolv.conf as well as
 // information regarding what IP the metadata server resolves to and the
-type DNSConfig struct {
+type Config struct {
 	ResolvConf        *ResolvConf
 	MetadataServerIPs []string
 	RemoteServerIPs   []string
@@ -21,14 +21,14 @@ type ResolvConf struct {
 	Search      []string
 }
 
-func NewDNSConfig(resolveConf *ResolvConf, lookupMetadata bool) (*DNSConfig, error) {
+func NewConfig(resolveConf *ResolvConf, lookupMetadata bool) (*Config, error) {
 	remoteHostIPs, err := net.LookupHost("en.wikipedia.org")
 
 	if err != nil {
 		return nil, fmt.Errorf("could not look up host en.wikipedia.org: %s", err)
 	}
 
-	dnsConf := &DNSConfig{
+	dnsConf := &Config{
 		ResolvConf:        resolveConf,
 		MetadataServerIPs: nil,
 		RemoteServerIPs:   remoteHostIPs,

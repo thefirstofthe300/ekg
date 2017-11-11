@@ -12,7 +12,7 @@ import (
 
 func main() {
 
-	var outptr *os.File
+	outptr := os.Stdout
 
 	help := flag.Bool("help", false, "Display this help dialog and exit.")
 	procs := flag.Bool("processes", false, "Pretty prints the currently running processes")
@@ -37,8 +37,9 @@ func main() {
 	}
 
 	if *outfile != "" {
-		var err error
-		if _, err := os.Stat(*outfile); err == nil {
+		_, err := os.Stat(*outfile)
+
+		if err == nil {
 			os.Rename(*outfile, *outfile+string(".0"))
 		}
 
@@ -48,11 +49,9 @@ func main() {
 			log.Fatalf("unable to open log file for writing: %s", err)
 		}
 		defer outptr.Close()
-	} else {
-		outptr = os.Stdout
 	}
 
-	toFmt := fmt.FmtConfig{
+	toFmt := fmt.Config{
 		Processes: nil,
 		DNS:       nil,
 	}
@@ -81,7 +80,7 @@ func main() {
 			log.Fatalf("unable to generate resolvConf: %s", err)
 		}
 
-		dnsInfo, err := dns.NewDNSConfig(resolvconf, true)
+		dnsInfo, err := dns.NewConfig(resolvconf, true)
 
 		if err != nil {
 			log.Fatalf("unable to generate DNS config: %s", err)
