@@ -74,13 +74,14 @@ func main() {
 	}
 
 	if *dnsdump {
-		resolvconf, err := dns.NewResolvConf()
+		// Passing a blank string because we are not in the testing environment
+		resolvconf, err := dns.NewResolvConf("")
 
 		if err != nil {
 			log.Fatalf("unable to generate resolvConf: %s", err)
 		}
 
-		dnsInfo, err := dns.NewConfig(resolvconf, true)
+		dnsInfo, err := dns.NewConfig(resolvconf, false)
 
 		if err != nil {
 			log.Fatalf("unable to generate DNS config: %s", err)
