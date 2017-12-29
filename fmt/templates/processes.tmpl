@@ -7,4 +7,16 @@ Pid Ppid Command
 {{ if .DNS -}}
 Metadata Servers IPs: {{ range .DNS.MetadataServerIPs -}} {{ . }} {{ end }}
 IPs for en.wikipedia.org : {{ range .DNS.RemoteServerIPs -}} {{ . }} {{ end }}
+Nameservers : {{ range .DNS.ResolvConf.Nameservers -}} {{ . }} {{ end }}
+Domains : {{ range .DNS.ResolvConf.Domains -}} {{ . }} {{ end }}
+Search : {{ range .DNS.ResolvConf.Search -}} {{ . }} {{ end }}
+Attempts : {{ range .DNS.ResolvConf.Attempts -}} {{ . }} {{ end }}
+Timeout : {{ range .DNS.ResolvConf.Timeout -}} {{ . }} {{ end }}
+Ndots : {{ range .DNS.ResolvConf.Ndots -}} {{ . }} {{ end }}
 {{ end }}
+
+Routing Table
+interface Destination Gateway Mask Metric
+{{range .Routes.Routes -}}
+{{.Interface}} {{.Destination}} {{.Gateway}} {{.Mask}} {{.Metric}}
+{{end}}

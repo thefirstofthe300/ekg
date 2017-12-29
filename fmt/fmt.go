@@ -7,12 +7,14 @@ import (
 
 	"github.com/thefirstofthe300/ekg/dns"
 	"github.com/thefirstofthe300/ekg/processes"
+	"github.com/thefirstofthe300/ekg/route"
 )
 
 // Config is the data struct to be used when passing data to the output template
 type Config struct {
 	Processes *processes.Processes
 	DNS       *dns.Config
+	Routes    *route.Table
 }
 
 // Printf prints the data to the whatever writer it is passed

@@ -8,6 +8,7 @@ import (
 	"github.com/thefirstofthe300/ekg/dns"
 	"github.com/thefirstofthe300/ekg/fmt"
 	"github.com/thefirstofthe300/ekg/processes"
+	"github.com/thefirstofthe300/ekg/route"
 )
 
 func main() {
@@ -17,6 +18,7 @@ func main() {
 	help := flag.Bool("help", false, "Display this help dialog and exit.")
 	procs := flag.Bool("processes", false, "Pretty prints the currently running processes")
 	dnsdump := flag.Bool("dns", false, "Dumps the state of DNS")
+	routes := flag.Bool("routes", false, "Dumps the current routing table")
 	logfile := flag.String("log-file", "", "Log file to use")
 	outfile := flag.String("out-file", "", "Output file for the gathered metrics")
 	flag.Parse()
@@ -88,6 +90,16 @@ func main() {
 		}
 
 		toFmt.DNS = dnsInfo
+	}
+
+	if *routes {
+		routing, err := route.NewTable("/proc/net/route")
+
+		if err != nil {
+			log.Fatalf("unable to generate routing table: %s", err)
+		}
+
+		toFmt.Routes = routing
 	}
 
 	fmt.Printf(outptr, &toFmt)
