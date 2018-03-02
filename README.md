@@ -1,5 +1,5 @@
 ## Machine EKG
-[![](https://build.danielseymour.info/api/badges/thefirstofthe300/ekg/status.svg)](https://build.danielseymour.info/thefirstofthe300/go-playground)
+[![Build Status](http://build.danielseymour.info:8080/buildStatus/icon?job=ekg)](http://build.danielseymour.info:8080/job/ekg/)
 
 The machine EKG is a tool to be used to diagnose various issues with machine configuration. This tool was written with Google Compute Engine machines in mind,
 although pull requests for other types of VMs (including bare-metal) are welcome.
